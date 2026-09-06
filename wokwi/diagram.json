@@ -1,2 +1,129 @@
-{
+[09:04, 06/09/2026] SK: #include <Arduino.h>
+#include <DHT.h>
+
+#define DHT_PIN 4
+#define DHT_TYPE DHT11
+
+#define LED_PIN 2
+
+DHT dht(DHT_PIN, DHT_TYPE);
+
+void setup() {
+    Serial.begin(115200);
+
+    pinMode(LED_PIN, OUTPUT);
+
+    dht.begin();
+
+    Serial.println("================================");
+    Serial.println("ESP32 Smart Monitoring System");
+    Serial.println("================================");
+}
+
+void loop() {
+
+    float temperature = dht.readTemperature();
+    float humidity = dht.readHumidity();
+
+    if (isnan(temperature) || isnan(humidity)) {
+        Serial.println("Sensor reading failed!");
+        delay(2000);
+        return;
+    }
+
+    Serial.print("Temperature: ");
+    Serial.print(temperature);
+    Serial.println(" °C");
+
+    Serial.print("Humidity: ");
+    Ser…
+[09:06, 06/09/2026] SK: Add ESP32 monitoring and control firmware
+[09:09, 06/09/2026] SK: {
+  "version": 1,
+  "author": "ESP32 Smart Monitoring Project",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-dht11",
+      "id": "dht1",
+      "top": -20,
+      "left": 220,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": 100,
+      "left": 220,
+      "attrs": {
+        "color": "red"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 100,
+      "left": 140,
+      "attrs": {
+        "value": "220"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "dht1:VCC",
+      "esp:3V3",
+      "red",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "dht1:GND",
+      "esp:GND.1",
+      "black",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "dht1:SDA",
+      "esp:D4",
+      "green",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "r1:1",
+      "esp:D2",
+      "green",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "r1:2",
+      "led1:A",
+      "green",
+      [
+        "h0"
+      ]
+    ],
+    [
+      "led1:C",
+      "esp:GND.2",
+      "black",
+      [
+        "h0"
+      ]
+    ]
+  ]
 }
