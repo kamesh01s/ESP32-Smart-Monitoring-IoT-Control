@@ -1,44 +1,4 @@
-#include <Arduino.h>
-#include <DHT.h>
-
-#define DHT_PIN 4
-#define DHT_TYPE DHT11
-
-#define LED_PIN 2
-
-DHT dht(DHT_PIN, DHT_TYPE);
-
-void setup() {
-    Serial.begin(115200);
-
-    pinMode(LED_PIN, OUTPUT);
-
-    dht.begin();
-
-    Serial.println("================================");
-    Serial.println("ESP32 Smart Monitoring System");
-    Serial.println("================================");
-}
-
-void loop() {
-
-    float temperature = dht.readTemperature();
-    float humidity = dht.readHumidity();
-
-    if (isnan(temperature) || isnan(humidity)) {
-        Serial.println("Sensor reading failed!");
-        delay(2000);
-        return;
-    }
-
-    Serial.print("Temperature: ");
-    Serial.print(temperature);
-    Serial.println(" °C");
-
-    Serial.print("Humidity: ");
-    Ser…
-[09:06, 06/09/2026] SK: Add ESP32 monitoring and control firmware
-[09:09, 06/09/2026] SK: {
+ {
   "version": 1,
   "author": "ESP32 Smart Monitoring Project",
   "editor": "wokwi",
